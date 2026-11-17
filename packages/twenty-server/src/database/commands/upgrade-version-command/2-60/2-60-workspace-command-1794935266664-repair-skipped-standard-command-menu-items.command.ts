@@ -19,9 +19,14 @@ import { WorkspaceMigrationBuilderException } from 'src/engine/workspace-manager
 import { WorkspaceMigrationValidateBuildAndRunService } from 'src/engine/workspace-manager/workspace-migration/services/workspace-migration-validate-build-and-run-service';
 import { WorkspaceMigrationRunnerService } from 'src/engine/workspace-manager/workspace-migration/workspace-migration-runner/services/workspace-migration-runner.service';
 
+const isStandardCommandMenuItemName = (
+  name: string,
+): name is keyof typeof STANDARD_COMMAND_MENU_ITEMS =>
+  name in STANDARD_COMMAND_MENU_ITEMS;
+
 const STANDARD_COMMAND_MENU_ITEM_NAMES = Object.keys(
   STANDARD_COMMAND_MENU_ITEMS,
-) as (keyof typeof STANDARD_COMMAND_MENU_ITEMS)[];
+).filter(isStandardCommandMenuItemName);
 
 @RegisteredWorkspaceCommand('2.60.0', 1794935266664)
 @Command({
@@ -116,8 +121,7 @@ export class RepairSkippedStandardCommandMenuItemsCommand extends ProvisionedWor
     }
   }
 
-  // The universal identifier cannot change through a workspace migration, so
-  // these rows are written directly, as the 2.38 re-own did.
+  // A workspace migration cannot change a universal identifier, so write rows directly
   private async repairObjectNavigationCommands({
     workspaceId,
     isDryRun,

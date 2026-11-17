@@ -28,11 +28,13 @@ type NavigationCommandMenuItemByUniversalIdentifier = Partial<
   Record<string, NavigationCommandMenuItem>
 >;
 
-const isTargetlessNavigationCommandOfApplication = (
-  commandMenuItem: NavigationCommandMenuItem | undefined,
-  applicationUniversalIdentifier: string,
-): commandMenuItem is NavigationCommandMenuItem =>
-  isDefined(commandMenuItem) &&
+const isTargetlessNavigationCommandOfApplication = ({
+  commandMenuItem,
+  applicationUniversalIdentifier,
+}: {
+  commandMenuItem: NavigationCommandMenuItem;
+  applicationUniversalIdentifier: string;
+}): boolean =>
   commandMenuItem.applicationUniversalIdentifier ===
     applicationUniversalIdentifier &&
   commandMenuItem.engineComponentKey === EngineComponentKey.NAVIGATION &&
@@ -75,19 +77,20 @@ const buildObjectNavigationCommandMenuItemRepair = ({
   };
 
   if (isDefined(derivedCommandMenuItem)) {
-    return isTargetlessNavigationCommandOfApplication(
-      derivedCommandMenuItem,
+    return isTargetlessNavigationCommandOfApplication({
+      commandMenuItem: derivedCommandMenuItem,
       applicationUniversalIdentifier,
-    )
+    })
       ? { id: derivedCommandMenuItem.id, update }
       : undefined;
   }
 
   if (
-    !isTargetlessNavigationCommandOfApplication(
-      legacyCommandMenuItem,
+    !isDefined(legacyCommandMenuItem) ||
+    !isTargetlessNavigationCommandOfApplication({
+      commandMenuItem: legacyCommandMenuItem,
       applicationUniversalIdentifier,
-    )
+    })
   ) {
     return undefined;
   }
