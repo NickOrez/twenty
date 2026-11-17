@@ -1284,6 +1284,7 @@ input BooleanFieldComparison {
 }
 
 type CalendarChannel {
+  connectedAccount: ConnectedAccountPublicDTO
   connectedAccountId: UUID!
   contactAutoCreationPolicy: CalendarChannelContactAutoCreationPolicy!
   createdAt: DateTime!
@@ -1298,7 +1299,6 @@ type CalendarChannel {
   syncedAt: DateTime
   throttleFailureCount: Float!
   updatedAt: DateTime!
-  userWorkspaceId: UUID!
   visibility: CalendarChannelVisibility!
 }
 
