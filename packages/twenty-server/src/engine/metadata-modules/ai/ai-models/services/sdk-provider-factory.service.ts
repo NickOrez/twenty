@@ -227,6 +227,10 @@ export class SdkProviderFactoryService {
       name: config.name ?? 'openai-compatible',
       baseURL: config.baseUrl,
       ...(config.apiKey && { apiKey: config.apiKey }),
+      // Streamed OpenAI-compatible APIs (Ollama, etc.) only return token usage
+      // when stream_options.include_usage is set. Without this, Twenty's AI
+      // chat context meter stays empty because conversationSize never updates.
+      includeUsage: true,
     });
 
     return this.toProviderInstance(
