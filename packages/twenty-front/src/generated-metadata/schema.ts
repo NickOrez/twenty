@@ -6127,6 +6127,15 @@ export type PublicApplicationRegistration = {
   websiteUrl?: Maybe<Scalars['String']['output']>;
 };
 
+export type PublicCalendarChannel = {
+  __typename?: 'PublicCalendarChannel';
+  connectedAccount?: Maybe<ConnectedAccountPublicDto>;
+  connectedAccountId: Scalars['UUID']['output'];
+  handle: Scalars['String']['output'];
+  id: Scalars['UUID']['output'];
+  visibility: CalendarChannelVisibility;
+};
+
 export type PublicConnectionParametersOutput = {
   __typename?: 'PublicConnectionParametersOutput';
   connectionSecurity?: Maybe<EmailConnectionSecurity>;
@@ -6211,6 +6220,7 @@ export type Query = {
   billingPartnerCode: BillingPartnerCode;
   billingPlans: Array<BillingPlan>;
   billingPortalSession: BillingSession;
+  calendarChannels: Array<PublicCalendarChannel>;
   callRecordingIdForCalendarEvent?: Maybe<Scalars['UUID']['output']>;
   chatMessages: Array<AgentMessage>;
   chatStreamCatchupChunks: ChatStreamCatchupChunks;
